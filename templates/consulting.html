@@ -1,0 +1,85 @@
+{%extends "layout.html"%}
+{%block content%}
+{% block scripts %}
+  {{ super() }}
+  {{ datepicker.loader() }} {# to load jQuery-ui #}
+  {{ datepicker.picker(id=".dp") }}
+{% endblock %}
+<form class="form-horizontal" method="post" >
+  <fieldset>
+  
+  <!-- Form Name -->
+  <legend>Consulting</legend>
+  
+  <!-- Select Basic -->
+  <div class="form-group">
+    <label class="col-md-4 control-label" >Select Patient</label>
+    <div class="col-md-4">
+      {{form.csrf_token}}
+      {{form.opts}}
+    </div>
+  </div>
+  
+  
+  <!-- Textarea -->
+  <div class="form-group">
+    <label class="col-md-4 control-label" >Complaint</label>
+    <div class="col-md-4">                     
+      <textarea class="form-control"  name="complaint"></textarea>
+    </div>
+  </div>
+  
+  <!-- Textarea -->
+  <div class="form-group">
+    <label class="col-md-4 control-label">Treatment</label>
+    <div class="col-md-4">                     
+      <textarea class="form-control"  name="treatment"></textarea>
+    </div>
+  </div>
+  
+  <!-- Textarea -->
+  <div class="form-group">
+    <label class="col-md-4 control-label" >Report</label>
+    <div class="col-md-4">                     
+      <textarea class="form-control"  name="report"></textarea>
+    </div>
+  </div>
+  
+  <!-- Textarea -->
+  <div class="form-group">
+    <label class="col-md-4 control-label" >Medicine</label>
+    <div class="col-md-4">                     
+      <textarea class="form-control" name="medicine"></textarea>
+    </div>
+  </div>
+  
+  <!-- Text input-->
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="date">Next Appointment Date</label>  
+    <div class="col-md-4">
+    <input data-date-format="YYYY-MM-DD HH:mm:ss" data-role="datetimepicker"  name="date_nextappointment" type="text"  class="form-control dp">
+      
+    </div>
+  </div>
+  
+  <!-- Text input-->
+  <div class="form-group">
+    <label class="col-md-4 control-label" >Fees</label>  
+    <div class="col-md-4">
+    <input name="fee" type="text"  class="form-control input-md" required="">
+      
+    </div>
+  </div>
+  
+  <!-- Button -->
+  <div class="form-group">
+    <label class="col-md-4 control-label" ></label>
+    <div class="col-md-4">
+      <button name="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+  
+  </fieldset>
+  </form>
+  
+{% endblock %}

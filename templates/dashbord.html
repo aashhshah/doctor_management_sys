@@ -1,0 +1,26 @@
+{%extends "layout.html"%}
+{% block scripts %}
+{{super()}}
+<script type=text/javascript src="{{
+    url_for('static', filename='jquery.min.js') }}"></script>
+<script>
+    $(document).ready(function(){
+      $("button").click(function(){
+        $("p").toggle();
+      });
+    });
+</script>
+
+{% endblock %}
+{%block content%}
+<div class="text-center">
+<legend>Dashbord</legend>
+
+</div>  
+<div class="text-center">
+    <img src="{{url_for('static', filename='bapu.jpg')}}"class="rounded" alt="...">
+  </div>
+  <button>Toggle between hiding and showing the paragraphs</button>
+  <p>aa</p>
+
+{%endblock %}
