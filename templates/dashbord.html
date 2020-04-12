@@ -1,6 +1,15 @@
 {%extends "layout.html"%}
 {% block scripts %}
 {{super()}}
+<script>
+    $(document).ready(function(){
+      $("button").click(function(){
+        $("#div1").fadeToggle();
+        $("#div2").fadeToggle("slow");
+        $("#div3").fadeToggle(3000);
+      });
+    });
+</script>
 <script type=text/javascript src="{{
     url_for('static', filename='jquery.min.js') }}"></script>
 <script>
@@ -22,5 +31,13 @@
   </div>
   <button>Toggle between hiding and showing the paragraphs</button>
   <p>aa</p>
+  <script>
+    $(document).ready(function(){
+      $("button").click(function(){
+        $("#div1").fadeToggle();
+        $("#div2").fadeToggle("slow");
+        $("#div3").fadeToggle(3000);
+      });
+    });
 
 {%endblock %}
