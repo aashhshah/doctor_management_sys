@@ -17,11 +17,13 @@
 </style>
 <h1 class="text-center">View all <span class="badge badge-secondary">reports</span></h1>
 <hr>
-<form method="post">
+<div class="text-center"><form method="post">
 {{form.csrf_token}}
 {{form.opts}}
 <input type="submit" class="btn btn-primary">
 </form><br>
+</div>
+
 <div class="text-center">
 <h3><b><div class="text-uppercase">Patient Name:{{oldnew.name}}<br><br></div></b></h3>  
 
@@ -39,7 +41,7 @@ First visit  {{oldnew.date_created}}
     <h6>Patient Complaint:{{mynews.complaint}}</h6>
     
     <h6>Treatment:{{mynews.treatment}}</h6>
-    <h6>Prescribe{mynews.medicine}</h6>
+    <h6>Prescribe:{{mynews.medicine}}</h6>
     <h6>Report:{{mynews.report}}</h6>
     <h6>Appointment:{{mynews.appointment}}</h6>
     <h6>Fee:{{mynews.fee}}</h6>

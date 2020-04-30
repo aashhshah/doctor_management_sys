@@ -4,13 +4,13 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-from datetime import datetime
+from datetime import datetime,date,timedelta
 import sqlite3
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from flask_wtf import FlaskForm
 from flask_datepicker import datepicker
 
-###########################
+##############################################
 
 
 app = Flask(__name__)
@@ -18,6 +18,8 @@ Bootstrap(app)
 db=SQLAlchemy(app)
 admin =Admin(app)
 datepicker(app)
+# datepicker.loader(theme="base")
+
 app.config['SECRET_KEY'] = '123456'
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"]=True
@@ -65,9 +67,38 @@ class ChoiceForm(FlaskForm):
 
 
 ###### Flask Routes #####
-@app.route('/')
+@app.route('/',methods=['GET', 'POST'])
 def redirected():
-    return render_template('dashbord.html')
+    xy = date.today()
+    # todayappointment=Treatment.query.filter_by(Treatment.date_nextappointment=datetime.now).all()
+    # print(todayappointment)
+    one_weeks_ago = xy - timedelta(weeks=1)
+    print(one_weeks_ago)
+    all1=Treatment.query.filter_by().all()
+    all2=Treatment.query.filter(one_weeks_ago>
+    Treatment.date_treatment).all()
+    print(all2)
+    starting_today=0
+    starting=0
+    starting2=0
+
+    for y in range(len(all2)):
+        starting2=starting2+all2[y].fee
+
+    print(starting2)
+
+
+    for x in range(len(all1)):
+        
+        # print(all1[x].fee)
+        starting=starting+all1[x].fee
+        if(all1[x].date_nextappointment==xy):
+            starting_today=starting_today+1
+           
+
+    
+
+    return render_template('dashbord.html',xy=xy,starting=starting,starting_today=starting_today,starting2=starting2)
 
 
 

@@ -14,6 +14,7 @@
     url_for('static', filename='jquery.min.js') }}"></script>
 <script>
     $(document).ready(function(){
+      $("p").hide();
       $("button").click(function(){
         $("p").toggle();
       });
@@ -22,22 +23,85 @@
 
 {% endblock %}
 {%block content%}
+<style>
+  img {
+  border-radius: 50%;
+  }
+  .col-md-4{
+    border:1px solid #000;
+    font-family: 'Roboto', sans-serif;
+
+  }
+  .col-md-16{
+    border:1px solid #000;
+    font-family: 'Roboto', sans-serif;
+
+  }
+  .text-center{
+    font-family: 'Roboto', sans-serif;
+    
+  }
+  
+</style>
 <div class="text-center">
 <legend>Dashbord</legend>
 
 </div>  
 <div class="text-center">
-    <img src="{{url_for('static', filename='bapu.jpg')}}"class="rounded" alt="...">
+   <div class="container=fluid"> <img src="{{url_for('static', filename='bapu.jpg')}}"class="rounded" alt="..." width="200" height="200">
+    <br>
+    <br>
+   </div>
+</div>
+   <div class="text-center">
+    WELL COME
+   </br>
+   
+    {{xy}}
+    <br>
+    {{starting_today}}
+  
+    </div>
+  
+    
+  <br>
+  <br>
+  <br>
+  <div class="container">
+  <div class="row">
+    <div class="col-sm">
+  
+      <button class="btn btn-info">Total Renvnue</button>
+      <h1>
+        
+      <p> {{starting}}</p>
+      </h1>
   </div>
-  <button>Toggle between hiding and showing the paragraphs</button>
-  <p>aa</p>
-  <script>
-    $(document).ready(function(){
-      $("button").click(function(){
-        $("#div1").fadeToggle();
-        $("#div2").fadeToggle("slow");
-        $("#div3").fadeToggle(3000);
-      });
-    });
 
+    <div class="col-sm">
+    <button class="btn btn-info">Weekly Renvnue</button>
+    <h1>
+      
+    <p> {{starting2}}</p>
+    </h1>
+  </div>
+</div>
+</div>
+
+
+One of three columns
+Copy
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      One of three columns
+    </div>
+    <div class="col-sm">
+      One of three columns
+    </div>
+    <div class="col-sm">
+      One of three columns
+    </div>
+  </div>
+</div>
 {%endblock %}
