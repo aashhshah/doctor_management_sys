@@ -75,8 +75,7 @@ def redirected():
     one_weeks_ago = xy - timedelta(weeks=1)
     print(one_weeks_ago)
     all1=Treatment.query.filter_by().all()
-    all2=Treatment.query.filter(one_weeks_ago>
-    Treatment.date_treatment).all()
+    all2=Treatment.query.filter(one_weeks_ago>Treatment.date_treatment).all()
     print(all2)
     starting_today=0
     starting=0
@@ -169,7 +168,34 @@ def patient():
 def editdata():
     return redirect('/admin')
     
+@app.route("/upcomming",methods=["GET", "POST"])
+def upcomming():
+    # xyz = date.today()
+    # # name1=[]
+    # name=Treatment.query.filter(Treatment.date_nextappointment==xyz).all()
+    # if request.method == 'POST':
+    #     reqdate = request.form
+    #     scheduledate=reqdate.get('scheduledate')
+    #     # print(scheduledate)
+    #     name=Treatment.query.filter(Treatment.date_nextappointment==xyz).all()
+        
+    #     for x in range(len(name)):
+
+
     
+    #         c=name[x].patient_id
+            
+    #         # print(c)
+    #         name1=Patient.query.filter(Patient.id==c).all()
+    #         for name1s in name:
+
+    #         # name=Treatment.query.filter(Treatment.date_nextappointment==scheduledate).all()
+            
+            
+    #             print(name1s)
+
+
+    return render_template('upcomming.html')
 
 
 

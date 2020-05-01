@@ -4,6 +4,7 @@
   {{ super() }}
   {{ datepicker.loader() }} {# to load jQuery-ui #}
   {{ datepicker.picker(id=".dp") }}
+  
 {% endblock %}
 <form class="form-horizontal" method="post" >
   <fieldset>
@@ -66,7 +67,7 @@
   <div class="form-group">
     <label class="col-md-4 control-label" >Fees</label>  
     <div class="col-md-4">
-    <input name="fee" type="text"  class="form-control input-md" required="">
+    <input name="fee" type="text" class="form-control input-md" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))">
       
     </div>
   </div>
@@ -78,6 +79,8 @@
       <button name="submit" class="btn btn-primary">Submit</button>
     </div>
   </div>
+ 
+
   
   </fieldset>
   </form>

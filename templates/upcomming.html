@@ -1,5 +1,26 @@
 {%extends "layout.html"%}
+{% block scripts %}
+  {{ super() }}
+  {{ datepicker.loader() }} {# to load jQuery-ui #}
+  {{ datepicker.picker(id=".dp") }}
+  
+{% endblock %}
 
 {% block content%}
+<!-- <h1 class="text-center">Day Wise Appointment </h1>
+<hr>
 
+<form method="post">
+<div class="form-group">
+    <label class="col-md-4 control-label" for="date">Next Appointment Date</label>  
+    <div class="col-md-4">
+    <input data-date-format="YYYY-MM-DD HH:mm:ss" data-role="datetimepicker"  name="scheduledate" type="text" placeholder="{{xyz}}" class="form-control dp">
+    <button name="submit" class="btn btn-primary">Submit</button>
+
+</form>  
+{%for name1s in name1%}
+{{name1s}}
+{%endfor %} -->
+
+<h1 class="text-center">Comming Soon</h1>
 {% endblock %}

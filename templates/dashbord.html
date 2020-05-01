@@ -1,15 +1,7 @@
 {%extends "layout.html"%}
 {% block scripts %}
 {{super()}}
-<script>
-    $(document).ready(function(){
-      $("button").click(function(){
-        $("#div1").fadeToggle();
-        $("#div2").fadeToggle("slow");
-        $("#div3").fadeToggle(3000);
-      });
-    });
-</script>
+
 <script type=text/javascript src="{{
     url_for('static', filename='jquery.min.js') }}"></script>
 <script>
@@ -54,54 +46,38 @@
    </div>
 </div>
    <div class="text-center">
-    WELL COME
+   <h1> WELL COME</h1>
    </br>
    
     {{xy}}
     <br>
-    {{starting_today}}
-  
+
     </div>
-  
+    <div class=container>
+  <div class="row">
+    <div class="text-center">
+    <div class="col-md-4">
+      <h3>Today Appointment:</h3>
+      <br>
+      {{starting_today}}
+    </div>
+  </div>
+  </div>
+</div>
     
-  <br>
-  <br>
-  <br>
-  <div class="container">
-  <div class="row">
-    <div class="col-sm">
-  
-      <button class="btn btn-info">Total Renvnue</button>
-      <h1>
-        
-      <p> {{starting}}</p>
-      </h1>
-  </div>
-
-    <div class="col-sm">
-    <button class="btn btn-info">Weekly Renvnue</button>
-    <h1>
-      
-    <p> {{starting2}}</p>
-    </h1>
-  </div>
 </div>
-</div>
-
-
-One of three columns
-Copy
 <div class="container">
-  <div class="row">
-    <div class="col-sm">
-      One of three columns
-    </div>
-    <div class="col-sm">
-      One of three columns
-    </div>
-    <div class="col-sm">
-      One of three columns
-    </div>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      
+      <th scope="col"><p>Total Renvnue : {{starting}}</p></th>
+      <th scope="col"> <p>This Week : {{starting2}}</p></th>
+    </tr>
+  </thead>
+  <tbody>
+    <br>  
+    <button class="btn btn-info">Total Renvnue</button>
+    <br>
   </div>
-</div>
 {%endblock %}
