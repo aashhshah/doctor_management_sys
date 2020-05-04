@@ -1,0 +1,9 @@
+flask
+flask_bootstrap
+flask_sql
+flask_sqlalchemy
+flask_admin
+sqlite3
+flask_wtf
+wtforms.ext.sqlalchemy.fields
+flask_datepicker
