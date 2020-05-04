@@ -32,7 +32,7 @@ class Patient(db.Model):
     id =db.Column(db.Integer, primary_key=True)
     name= db.Column(db.String(50))
     phone= db.Column(db.String(50))
-    date_created= db.Column(db.DateTime,default=datetime.now)
+    date_created= db.Column(db.Date,default=date.today())
     area= db.Column(db.String(30))
     age=db.Column(db.Integer)
     sex= db.Column(db.String(8))
@@ -50,10 +50,9 @@ class Treatment(db.Model):
     patient_id=db.Column(db.Integer,db.ForeignKey('patient.id'),nullable=True)
     complaint=db.Column(db.String())
     treatment=db.Column(db.String())
-    medicine=db.Column(db.String())
     report=db.Column(db.String())
     fee=db.Column(db.Integer())
-    date_treatment= db.Column(db.DateTime,default=datetime.now)
+    date_treatment= db.Column(db.Date,default=date.today())
     date_nextappointment= db.Column(db.Date())
 
     def __repr__(self):
@@ -69,14 +68,14 @@ class ChoiceForm(FlaskForm):
 ###### Flask Routes #####
 @app.route('/',methods=['GET', 'POST'])
 def redirected():
-    xy = date.today()
+    ab= date.today()
+    xy=ab.strftime("%m/%d/%Y")
+
     # todayappointment=Treatment.query.filter_by(Treatment.date_nextappointment=datetime.now).all()
     # print(todayappointment)
-    one_weeks_ago = xy - timedelta(weeks=1)
-    print(one_weeks_ago)
+    one_weeks_ago = ab - timedelta(weeks=1)
     all1=Treatment.query.filter_by().all()
     all2=Treatment.query.filter(one_weeks_ago>Treatment.date_treatment).all()
-    print(all2)
     starting_today=0
     starting=0
     starting2=0
@@ -84,7 +83,6 @@ def redirected():
     for y in range(len(all2)):
         starting2=starting2+all2[y].fee
 
-    print(starting2)
 
 
     for x in range(len(all1)):
@@ -111,17 +109,16 @@ def consulting():
         req1=request.form
         opts=req1.get('opts')
         complaint=req1.get('complaint')
-        treatment=req1.get('treatment')
+        treatment=req1.get('treatment') 
         report=req1.get('report')
-        medicine=req1.get('medicine')
         date_nextappointment1=req1.get('date_nextappointment')
         fee=req1.get('fee')
         date_nextappointment=datetime.strptime(date_nextappointment1,"%Y-%m-%d")
-        newtreatment= Treatment(patient_id=opts,complaint=complaint,treatment=treatment,report=report,fee=fee,medicine=medicine,date_nextappointment=date_nextappointment)
+        newtreatment= Treatment(patient_id=opts,complaint=complaint,treatment=treatment,report=report,fee=fee,date_nextappointment=date_nextappointment)
         db.session.add(newtreatment)
         db.session.commit()
-        print(newtreatment)
-        print(opts)
+        # print(newtreatment)
+        # print(opts)
     return render_template('consulting.html',form=form)
 
 
@@ -138,7 +135,7 @@ def newpatient():
         newpatient = Patient(name=name,phone=phone,area=area,age=age,sex=sex)
         db.session.add(newpatient)
         db.session.commit()
-        print(name,phone,area,age,sex)
+        # print(name,phone,area,age,sex)
         return redirect('/consulting')
     return render_template('newpatient.html')
 
@@ -159,7 +156,6 @@ def patient():
         for mynews in mynew:
             
             c +=mynews.fee
-            print(c)
         return render_template('viewall.html',form=form,mynew=mynew,oldnew=oldnew,c=c)
         
     return render_template('viewall.html',form=form,oldnew=oldnew,increment=increment)
@@ -170,32 +166,27 @@ def editdata():
     
 @app.route("/upcomming",methods=["GET", "POST"])
 def upcomming():
-    # xyz = date.today()
-    # # name1=[]
-    # name=Treatment.query.filter(Treatment.date_nextappointment==xyz).all()
-    # if request.method == 'POST':
-    #     reqdate = request.form
-    #     scheduledate=reqdate.get('scheduledate')
-    #     # print(scheduledate)
-    #     name=Treatment.query.filter(Treatment.date_nextappointment==xyz).all()
+    xyz = date.today()
+    list=[]
+    list1=[]
+    # name1=[]
+    if request.method == 'POST':
+        reqdate = request.form
+        scheduledate=reqdate.get('scheduledate')
+        name=Treatment.query.filter(Treatment.date_nextappointment==scheduledate).all()
+        for l in range(len(name)):
+            a=name[l].patient_id
+            list.append(a)
         
-    #     for x in range(len(name)):
+        for lists in list:
+            cool=Patient.query.filter(Patient.id==lists).first()
+            list1.append(cool)
 
 
-    
-    #         c=name[x].patient_id
-            
-    #         # print(c)
-    #         name1=Patient.query.filter(Patient.id==c).all()
-    #         for name1s in name:
+        
 
-    #         # name=Treatment.query.filter(Treatment.date_nextappointment==scheduledate).all()
-            
-            
-    #             print(name1s)
-
-
-    return render_template('upcomming.html')
+        
+    return render_template('upcomming.html',list1=list1)
 
 
 

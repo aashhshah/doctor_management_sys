@@ -7,20 +7,53 @@
 {% endblock %}
 
 {% block content%}
-<!-- <h1 class="text-center">Day Wise Appointment </h1>
-<hr>
+<style>
+     table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  
+</style>
+<legend class="text-center">Upcoming</legend>
+
+<div class="container">
 
 <form method="post">
 <div class="form-group">
-    <label class="col-md-4 control-label" for="date">Next Appointment Date</label>  
+    <label class="col-md-4 control-label" for="date">Select Date</label>  
     <div class="col-md-4">
     <input data-date-format="YYYY-MM-DD HH:mm:ss" data-role="datetimepicker"  name="scheduledate" type="text" placeholder="{{xyz}}" class="form-control dp">
+    <br>
     <button name="submit" class="btn btn-primary">Submit</button>
+  <br>
+  
 
-</form>  
-{%for name1s in name1%}
-{{name1s}}
-{%endfor %} -->
+</form> 
+<br>
+</div>
+<br>
+<br>
+<table class="table table-dark"style="width:100%">
+  <thead>
+    <tr>
+      <th scope="col">Patient id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Phone Number</th>
+      <th scope="col">Area</th>
+      <th scope="col">Age</th>
+      <th scope="col">Gender</th>
+    <tbody>
 
-<h1 class="text-center">Comming Soon</h1>
+{%for list1s in list1%}
+<tr>
+  <th scope="row">{{list1s.id}}</th>
+  <td>{{list1s.name}}</td>
+  <td>{{list1s.phone}}</td>
+  <td>{{list1s.area}}</td>
+  <td>{{list1s.age}}</td>
+  <td>{{list1s.sex}}</td>
+
+{%endfor%}
+</tr>
+</tbody>
+
 {% endblock %}

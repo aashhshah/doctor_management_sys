@@ -1,18 +1,18 @@
 from run import db,Treatment,Patient
 from datetime import datetime,date,timedelta
-xy = date.today()
 
 xyz = date.today()
 name=Treatment.query.filter(Treatment.date_nextappointment==xyz).all()
+list=[]
 
 
-for x in range(len(name)):
+for l in range(len(name)):
     
-    c=name[x].patient_id
-    for 
-    
-     in c:
+    a=name[l].patient_id
+    #print(a)
+    list.append(a)
 
-        name1=Patient.query.filter(Patient.id==c).all()
-        print(name1)
-    
+for lists in list:
+    # print(lists)
+    cool=Patient.query.filter(Patient.id==lists).first()
+    print(cool)    
