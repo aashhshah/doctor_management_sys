@@ -15,4 +15,4 @@ for l in range(len(name)):
 for lists in list:
     # print(lists)
     cool=Patient.query.filter(Patient.id==lists).first()
-    print(cool)    
+     
