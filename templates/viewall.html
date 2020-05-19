@@ -18,8 +18,13 @@
 <legend class="text-center">View all <span class="badge badge-secondary">reports</span></legend>
 
 <div class="text-center"><form method="post">
-{{form.csrf_token}}
-{{form.opts}}
+  <input list="browsers" name="patient" id="browser" required>
+    <datalist id="browsers">
+        {%for all1s in all1%}
+      <option {{all1s}} value="{{all1s}}">
+      {%endfor%}
+    </datalist>
+
 <input type="submit" class="btn btn-primary">
 </form><br>
 </div>

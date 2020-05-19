@@ -9,7 +9,6 @@ import sqlite3
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from flask_wtf import FlaskForm
 from flask_datepicker import datepicker
-
 ##############################################
 
 
@@ -24,11 +23,14 @@ app.config['SECRET_KEY'] = '123456'
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"]=True
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite3"
+app.config['WHOOSH_BASE']='whoosh'
 conn = sqlite3.connect('test.db')
+# wa.whoosh_index=(app,Patient)
 
 ##############  Database ###############3
 
 class Patient(db.Model):
+    # __searchable__=['name', 'phone']
     id =db.Column(db.Integer, primary_key=True)
     name= db.Column(db.String(50))
     phone= db.Column(db.String(50))
@@ -40,7 +42,7 @@ class Patient(db.Model):
 
     def __repr__(self):
 
-       return f"Patient('{self.id}','{self.name}','{self.phone}','{self.date_created}','{self.area}','{self.age}','{self.sex}')"
+       return f"{self.name},{self.phone},{self.id},{self.date_created},{self.area},{self.age},{self.sex}"
 
 
 
@@ -56,13 +58,35 @@ class Treatment(db.Model):
     date_nextappointment= db.Column(db.Date())
 
     def __repr__(self):
-        return f"Treatment['{self.id}','{self.patient_id}','{self.complaint}','{self.treatment}','{self.date_treatment}','{self.date_nextappointment}']"
+        return f"Treatment['{self.id}',{self.patient_id},'{self.complaint}','{self.fee}','{self.treatment}','{self.date_treatment}','{self.date_nextappointment}']"
 
 def patient_query():
     return Patient.query
 
 class ChoiceForm(FlaskForm):
     opts = QuerySelectField(query_factory=patient_query,allow_blank=False)
+
+
+
+
+@app.route('/temp',methods=['GET', 'POST'])
+def temp():
+    all1=Patient.query.filter_by().all()
+    
+    if request.method == 'POST':
+        req1=request.form
+        opts=req1.get('patient')
+       
+        li = list(opts.split(",")) 
+        print(li)
+        f=li[2]
+        print(f)
+    return render_template('temp.html',all1=all1)
+
+
+
+
+
 
 
 ###### Flask Routes #####
@@ -102,24 +126,29 @@ def redirected():
 @app.route('/consulting',methods=['GET', 'POST'])
 def consulting():
     form = ChoiceForm()
+    all1=Patient.query.filter_by().all()
 
 
    
     if request.method == 'POST':
         req1=request.form
-        opts=req1.get('opts')
+        opts=req1.get('patient') 
+        li = list(opts.split(",")) 
+        print(li)
+        f=li[2]
+        
         complaint=req1.get('complaint')
         treatment=req1.get('treatment') 
         report=req1.get('report')
         date_nextappointment1=req1.get('date_nextappointment')
         fee=req1.get('fee')
         date_nextappointment=datetime.strptime(date_nextappointment1,"%Y-%m-%d")
-        newtreatment= Treatment(patient_id=opts,complaint=complaint,treatment=treatment,report=report,fee=fee,date_nextappointment=date_nextappointment)
+        newtreatment= Treatment(patient_id=f,complaint=complaint,treatment=treatment,report=report,fee=fee,date_nextappointment=date_nextappointment)
         db.session.add(newtreatment)
         db.session.commit()
         # print(newtreatment)
-        # print(opts)
-    return render_template('consulting.html',form=form)
+        print(opts)
+    return render_template('consulting.html',form=form,all1=all1)
 
 
 
@@ -142,27 +171,29 @@ def newpatient():
 @app.route('/viewall',methods=['GET', 'POST'])
 def patient():
     c=0
-    form = ChoiceForm()
+    all1=Patient.query.filter_by().all()
+
     oldnew=Patient.query.filter_by(id=1).first()
     increment=0
     if request.method == 'POST':
         
         req123=request.form
-        opts=req123.get('opts')
+        opts=req123.get('patient') 
+        li = list(opts.split(",")) 
+        print(li)
+        f=li[2]
 
         
-        oldnew=Patient.query.filter_by(id=opts).first()
-        mynew=Treatment.query.filter_by(patient_id=opts).all()
+        oldnew=Patient.query.filter_by(id=f).first()
+        mynew=Treatment.query.filter_by(patient_id=f).all()
         for mynews in mynew:
             
             c +=mynews.fee
-        return render_template('viewall.html',form=form,mynew=mynew,oldnew=oldnew,c=c)
+        return render_template('viewall.html',mynew=mynew,oldnew=oldnew,c=c,all1=all1)
         
-    return render_template('viewall.html',form=form,oldnew=oldnew,increment=increment)
+    return render_template('viewall.html',oldnew=oldnew,increment=increment,all1=all1)
 
-@app.route("/editdata")
-def editdata():
-    return redirect('/admin')
+
     
 @app.route("/upcomming",methods=["GET", "POST"])
 def upcomming():
@@ -188,8 +219,29 @@ def upcomming():
         
     return render_template('upcomming.html',list1=list1)
 
+@app.route('/viewday',methods=['GET', 'POST'])
+def viewday():
+    xyz = date.today()
+    a=[]
+    thisdict = { }
+    if request.method == 'POST':
+        reqdate = request.form
+        scheduledate=reqdate.get('scheduledate')
+        name=Treatment.query.filter(Treatment.date_nextappointment==scheduledate).all()
+        for names in name:
+            print(names.patient_id)
+            a=Patient.query.filter(Patient.id==names.patient_id).first()
+            print(a.name)
+            a.apped()
+    return render_template('viewday.html',a=a,names=names)
+            
+    return render_template('viewday.html')
 
 
+
+@app.route("/editdata")
+def editdata():
+    return redirect('/admin')
 ###### Admin #######
 admin.add_view(ModelView(Patient,db.session))
 admin.add_view(ModelView(Treatment,db.session))

@@ -1,0 +1,19 @@
+{%extends "layout.html"%}
+
+
+{% block content%}
+<form  method="post">
+    <label>Select Patient</label>
+    <input list="browsers" name="patient" id="browser">
+    <datalist id="browsers">
+        {%for all1s in all1%}
+      <option {{all1s}} value="{{all1s}}">
+      {%endfor%}
+    </datalist>
+    <input type="submit">
+  </form>
+
+
+
+
+{%endblock%}

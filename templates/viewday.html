@@ -1,0 +1,31 @@
+{%extends "layout.html"%}
+{% block scripts %}
+  {{ super() }}
+  {{ datepicker.loader() }} {# to load jQuery-ui #}
+  {{ datepicker.picker(id=".dp") }}
+  
+{% endblock %}
+
+{% block content%}
+<style>
+     table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  
+</style>
+<legend class="text-center">View Day</legend>
+
+<div class="container">
+
+<form method="post">
+<div class="form-group">
+    <label class="col-md-4 control-label" for="date">Select Date</label>  
+    <div class="col-md-4">
+    <input data-date-format="YYYY-MM-DD HH:mm:ss" data-role="datetimepicker"  name="scheduledate" type="text" placeholder="{{xyz}}" class="form-control dp">
+    <br>
+    <button name="submit" class="btn btn-primary">Submit</button>
+  <br>
+</form> 
+
+
+{% endblock %}
