@@ -8,7 +8,6 @@ from datetime import datetime,date,timedelta
 import sqlite3
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from flask_wtf import FlaskForm
-from flask_datepicker import datepicker
 ##############################################
 
 
@@ -16,8 +15,7 @@ app = Flask(__name__)
 Bootstrap(app)
 db=SQLAlchemy(app)
 admin =Admin(app)
-datepicker(app)
-# datepicker.loader(theme="base")
+
 
 app.config['SECRET_KEY'] = '123456'
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
@@ -94,32 +92,16 @@ def temp():
 def redirected():
     ab= date.today()
     xy=ab.strftime("%m/%d/%Y")
+    a=0
 
-    # todayappointment=Treatment.query.filter_by(Treatment.date_nextappointment=datetime.now).all()
-    # print(todayappointment)
-    one_weeks_ago = ab - timedelta(weeks=1)
-    all1=Treatment.query.filter_by().all()
-    all2=Treatment.query.filter(one_weeks_ago>Treatment.date_treatment).all()
-    starting_today=0
-    starting=0
-    starting2=0
+    total=Treatment.query.filter(Treatment.date_nextappointment==ab)
 
-    for y in range(len(all2)):
-        starting2=starting2+all2[y].fee
-
-
-
-    for x in range(len(all1)):
-        
-        # print(all1[x].fee)
-        starting=starting+all1[x].fee
-        if(all1[x].date_nextappointment==xy):
-            starting_today=starting_today+1
-           
+    for totals in total:
+        a=a+1
 
     
 
-    return render_template('dashbord.html',xy=xy,starting=starting,starting_today=starting_today,starting2=starting2)
+    return render_template('dashbord.html',xy=xy,a=a)
 
 
 
@@ -168,7 +150,7 @@ def newpatient():
         return redirect('/consulting')
     return render_template('newpatient.html')
 
-@app.route('/viewall',methods=['GET', 'POST'])
+@app.route('/history',methods=['GET', 'POST'])
 def patient():
     c=0
     all1=Patient.query.filter_by().all()
@@ -189,13 +171,13 @@ def patient():
         for mynews in mynew:
             
             c +=mynews.fee
-        return render_template('viewall.html',mynew=mynew,oldnew=oldnew,c=c,all1=all1)
+        return render_template('history.html',mynew=mynew,oldnew=oldnew,c=c,all1=all1)
         
-    return render_template('viewall.html',oldnew=oldnew,increment=increment,all1=all1)
+    return render_template('history.html',oldnew=oldnew,increment=increment,all1=all1)
 
 
     
-@app.route("/upcomming",methods=["GET", "POST"])
+@app.route("/appointment",methods=["GET", "POST"])
 def upcomming():
     xyz = date.today()
     list=[]
@@ -217,26 +199,56 @@ def upcomming():
         
 
         
-    return render_template('upcomming.html',list1=list1)
+    return render_template('appointment.html',list1=list1)
 
 @app.route('/viewday',methods=['GET', 'POST'])
 def viewday():
     xyz = date.today()
-    a=[]
-    thisdict = { }
+    scheduledate=xyz
+    total=0
+    list1=[]
+    
     if request.method == 'POST':
         reqdate = request.form
         scheduledate=reqdate.get('scheduledate')
-        name=Treatment.query.filter(Treatment.date_nextappointment==scheduledate).all()
+        name=Treatment.query.filter(Treatment.date_treatment==scheduledate).all()
         for names in name:
-            print(names.patient_id)
-            a=Patient.query.filter(Patient.id==names.patient_id).first()
-            print(a.name)
-            a.apped()
-    return render_template('viewday.html',a=a,names=names)
+            total=total+names.fee
             
-    return render_template('viewday.html')
+            list1.append(names)
 
+    return render_template('viewday.html',list1=list1,scheduledate=scheduledate,total=total)
+            
+    return render_template('viewday.html',list1=list1,scheduledate=scheduledate,total=total)
+
+
+@app.route('/weekly',methods=['GET', 'POST'])
+def weekly():
+    xyz = date.today()
+    week= xyz - timedelta(weeks=1)
+    month=xyz - timedelta(weeks=31)
+    year=xyz - timedelta(days=365)
+    report = week
+    scheduledate=xyz
+    total=0
+    list1=[]
+    report=week
+    if request.method == 'POST':
+        req=request.form
+        report=req.get('report')
+        print(report)
+   
+    
+        name=Treatment.query.filter(Treatment.date_treatment>=report).all()
+        for names in name:
+            total=total+names.fee
+        
+            list1.append(names)
+
+
+    return render_template('weekly.html',list1=list1,scheduledate=scheduledate,total=total,week=week,month=month,year=year,report=report)
+            
+    return render_template('weekly.html',list1=list1,scheduledate=scheduledate,total=total,week=week,month=month,year=year,report=report)
 
 
 @app.route("/editdata")

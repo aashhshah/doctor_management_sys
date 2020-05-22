@@ -1,10 +1,22 @@
 {%extends "layout.html"%}
 {%block content%}
 {% block scripts %}
-  {{ super() }}
-  {{ datepicker.loader() }} {# to load jQuery-ui #}
-  {{ datepicker.picker(id=".dp") }}
+{{super() }}
+
+<script type=text/javascript src="{{
+  url_for('static', filename='jquery.min.js') }}"></script>
   
+ 
+  <script src="{{
+    url_for('static', filename='jquery-ui.js') }}"></script>
+  
+         <script>
+          $( function() {
+            $("#date_nextappointment").datepicker({dateFormat: "yy-mm-dd"});
+
+            $( "#date_nextappointment" ).datepicker();
+          } );
+          </script>
 {% endblock %}
 <form class="form-horizontal" method="post" >
   <fieldset>
@@ -56,7 +68,7 @@
   <div class="form-group">
     <label class="col-md-4 control-label" for="date">Next Appointment Date</label>  
     <div class="col-md-4">
-    <input data-date-format="YYYY-MM-DD HH:mm:ss" data-role="datetimepicker" required name="date_nextappointment" type="text"  class="form-control dp">
+    <input id="date_nextappointment" required name="date_nextappointment" type="text"  class="form-control dp">
       
     </div>
   </div>

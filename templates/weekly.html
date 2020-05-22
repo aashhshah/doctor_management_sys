@@ -1,0 +1,96 @@
+{%extends "layout.html"%}
+{% block scripts %}
+{{super()}}
+<script type=text/javascript src="{{
+    url_for('static', filename='Chart.min.js') }}"></script>
+    
+    
+    
+{% endblock %}
+{% block content %}
+<style>
+    table, th, td {
+ border: 1px solid black;
+ border-collapse: collapse;
+    }
+
+ 
+</style>
+<legend class="text-center">Timely Report &nbsp;<span class="badge badge-secondary">{{scheduledate}}&nbsp;to&nbsp;{{report}}</span></legend>
+<br>
+<div class="container">
+  <form method="post">
+    <div class="row">
+      
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+    <select name="report" class="form-control">
+      <option value="{{week}}">Week</option>
+      <option value="{{month}}">Month</option>
+      <option value="{{year}}">Year</option>
+    </select>
+    </div>
+    <div class="col-sm-2">
+    <input type="submit" class="btn btn-primary">
+  </div>
+  </div>
+  
+  </div>
+  <br>
+  <br>
+
+</form>
+<div class="container">
+<table class="table table-dark"style="width:100%">
+    <thead>
+      <tr>
+        <th colspan="6"><b><div class="text-center">{{scheduledate}}&nbsp;to&nbsp;{{report}}</b></div></th>
+      </tr>
+    </thead>
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">id</th>
+        <th scope="col">name</th>
+        <th scope="col">area</th>
+        <th scope="col">treatment</th>
+        <th scope="col">fee</th>
+      </tr>
+    </thead>
+   
+  {%for list1s in list1%}
+  
+  
+    <tbody>
+      <tr>
+        <th scope="row">{{loop.index}}</th>
+        <td>{{list1s.owner.id}}</td>
+        <td>{{list1s.owner.name}}</td>
+        <td>{{list1s.owner.area}}</td>
+        <td>{{list1s.treatment}}</td>
+        <td>{{list1s.fee}}</td>
+      </tr>
+  
+    </tbody>
+  
+  {%endfor%}
+  <tbody>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      
+      <td></td>
+      <td><b>{{total}}</b></td>
+      </tr>
+  
+  </tbody>
+  
+  </table>
+  
+</div>
+<div class="container">
+<canvas id="myChart" width="200" height="300"></canvas>
+
+{% endblock %}

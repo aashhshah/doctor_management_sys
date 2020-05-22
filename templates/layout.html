@@ -1,25 +1,40 @@
 
 {% extends "bootstrap/base.html" %}
 {% block styles %}
-{{super()}}
-
+{{super() }}
+<link rel = "stylesheet" href ="{{
+  url_for('static', filename='jquery-ui.css') }}">
+ 
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap" rel="stylesheet">
 {% endblock %}
 {% block navbar %}
 <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Dr.Vikas Badhe </a>
+      <a class="navbar-brand" href="/">Dr.Vikas Badhe </a>
     </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
     <ul class="nav navbar-nav">
       <li><a href="/">Dashboard</a></li>
       <li><a href="/newpatient">New Patient</a></li>
       <li><a href="/consulting">Consulting</a></li>
-      <li><a href="/viewall">View All</a></li>
-      <li><a href="/upcomming">Upcoming</a></li>
-      <li><a href="/viewday">View Day</a></li>
-      <li><a href="/admin">Edit Data</a></li>
+      <li><a href="/history">History</a></li>
+      <li><a href="/appointment">Appointment</a></li>
+      
+      <ul class="nav navbar-nav navbar-right">
+      
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Report <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/viewday"><b>View By Day</b></a></li>
+            <li><a href="/weekly"><b>Timely</b></a></li>
+            
+          </ul>
+          <li><a href="/admin">Edit Data</a></li>
+
     </ul>
+    </div>
   </div>
 </nav>
 {% endblock %}

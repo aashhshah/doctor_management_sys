@@ -15,7 +15,7 @@
   border-collapse: collapse;
 }
 </style>
-<legend class="text-center">View all <span class="badge badge-secondary">reports</span></legend>
+<legend class="text-center">Patient History <span class="badge badge-secondary">reports</span></legend>
 
 <div class="text-center"><form method="post">
   <input list="browsers" name="patient" id="browser" required>
@@ -36,10 +36,12 @@ Age : {{oldnew.age}}<br>
 Area : {{oldnew.area}}<br>
 First visit : {{oldnew.date_created}}
 </div>
-    <hr>    
+    <hr>  
+<div class="container">  
 <table class="table table-dark">
     <thead class="thead-dark">
       <tr>
+        <th scope="col">#</th>
         <th scope="col">Treatment ID</th>
         <th scope="col">Date</th>
         <th scope="col"> Complaint</th>
@@ -54,7 +56,8 @@ First visit : {{oldnew.date_created}}
 
 <tbody>
     <tr>
-      <th scope="row">{{mynews.id}}</th>
+      <th scope="row">{{loop.index}}</th>
+      <th>{{mynews.id}}</th>
       <td>{{mynews.date_treatment}}</td>
       <td>{{mynews.complaint}}</td>
       <td>{{mynews.report}}</td>
@@ -71,9 +74,11 @@ First visit : {{oldnew.date_created}}
     <th></th>
     <th></th>
     <th></th>
+    <th></th>
     <th>{{c}}</th>
     <th></th>
     
 </tr>
 </table>
+</div>
 {%endblock%}

@@ -1,19 +1,36 @@
 {%extends "layout.html"%}
+{% block styles %}
+{{super() }}
+
+{% endblock %}
+{% block scripts %}
+{{super() }}
+<script type=text/javascript src="{{
+  url_for('static', filename='jquery.min.js') }}"></script>
+  
+ 
+  <script src="{{
+    url_for('static', filename='jquery-ui.js') }}"></script>
+  
+         <script>
+          $( function() {
+            $("#datepicker").datepicker({dateFormat: "yy-mm-dd"});
+
+            $( "#datepicker" ).datepicker();
+          } );
+          </script>
+{% endblock %}
 
 
 {% block content%}
-<form  method="post">
-    <label>Select Patient</label>
-    <input list="browsers" name="patient" id="browser">
-    <datalist id="browsers">
-        {%for all1s in all1%}
-      <option {{all1s}} value="{{all1s}}">
-      {%endfor%}
-    </datalist>
-    <input type="submit">
-  </form>
+<p>Enter Date: <input type = "text" id = "datepicker"></p>
 
 
 
-
+"yy-mm-dd"
 {%endblock%}
+
+
+
+
+
