@@ -1,5 +1,5 @@
 #imports
-from flask import Flask,render_template,request,redirect
+from flask import Flask,render_template,request,redirect,url_for
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
@@ -66,19 +66,15 @@ class ChoiceForm(FlaskForm):
 
 
 
-
-@app.route('/temp',methods=['GET', 'POST'])
-def temp():
-    all1=Patient.query.filter_by().all()
     
-    if request.method == 'POST':
-        req1=request.form
-        opts=req1.get('patient')
-       
-        li = list(opts.split(",")) 
-        print(li)
-        f=li[2]
-        print(f)
+    
+
+
+@app.route('/temp/<name>',methods=['GET', 'POST'])
+def temp(name):
+    all1=Patient.query.filter(Patient.id==name).all()
+    
+    
     return render_template('temp.html',all1=all1)
 
 
@@ -103,39 +99,59 @@ def redirected():
 
     return render_template('dashbord.html',xy=xy,a=a)
 
+@app.route('/startconsulting',methods=['GET', 'POST'])
+def login():
 
-
-@app.route('/consulting',methods=['GET', 'POST'])
-def consulting():
-    form = ChoiceForm()
     all1=Patient.query.filter_by().all()
 
+    if request.method == 'POST':
+        a1 = request.form['patient']
+        li = list(a1.split(","))
+        user=li[2]
+        return redirect(url_for('consulting',name = user))
+    
+    return render_template('startconsulting.html',all1=all1)
 
+
+
+@app.route('/consulting/<name>',methods=['GET', 'POST'])
+def consulting(name):
+
+    xy = date.today()
+    form = ChoiceForm()
+    all1=Patient.query.filter_by().all()
+    oldnew=Patient.query.filter_by(id=name).first()
+    mynew=Treatment.query.filter_by(patient_id=name).all()
+    
    
     if request.method == 'POST':
         req1=request.form
-        opts=req1.get('patient') 
-        li = list(opts.split(",")) 
-        print(li)
-        f=li[2]
+        print(req1)
+       
         
         complaint=req1.get('complaint')
+        print(complaint)
         treatment=req1.get('treatment') 
         report=req1.get('report')
         date_nextappointment1=req1.get('date_nextappointment')
         fee=req1.get('fee')
         date_nextappointment=datetime.strptime(date_nextappointment1,"%Y-%m-%d")
-        newtreatment= Treatment(patient_id=f,complaint=complaint,treatment=treatment,report=report,fee=fee,date_nextappointment=date_nextappointment)
+        newtreatment= Treatment(patient_id=name,complaint=complaint,treatment=treatment,report=report,fee=fee,date_nextappointment=date_nextappointment)
         db.session.add(newtreatment)
         db.session.commit()
-        # print(newtreatment)
-        print(opts)
-    return render_template('consulting.html',form=form,all1=all1)
+        print(newtreatment)
+
+    
+    return render_template('consulting.html',form=form,all1=all1,oldnew=oldnew,mynew=mynew,xy=xy)
 
 
 
 @app.route('/newpatient',methods=['GET', 'POST'])
 def newpatient():
+
+    last1=Patient.query.all()
+    last=last1[-1].id+1
+
     if request.method=='POST':
         req=request.form
         name=req.get('name')
@@ -147,7 +163,7 @@ def newpatient():
         db.session.add(newpatient)
         db.session.commit()
         # print(name,phone,area,age,sex)
-        return redirect('/consulting')
+        return redirect(url_for('consulting',name = last))
     return render_template('newpatient.html')
 
 @app.route('/history',methods=['GET', 'POST'])
@@ -157,6 +173,7 @@ def patient():
 
     oldnew=Patient.query.filter_by(id=1).first()
     increment=0
+
     if request.method == 'POST':
         
         req123=request.form

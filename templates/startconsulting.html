@@ -1,0 +1,43 @@
+{%extends "layout.html"%}
+{%block content%}
+{% block scripts %}
+{{super() }}
+
+<script type=text/javascript src="{{
+  url_for('static', filename='jquery.min.js') }}"></script>
+  
+ 
+  <script src="{{
+    url_for('static', filename='jquery-ui.js') }}"></script>
+  
+         <script>
+          $( function() {
+            $("#date_nextappointment").datepicker({dateFormat: "yy-mm-dd"});
+
+            $( "#date_nextappointment" ).datepicker();
+          } );
+          </script>
+{% endblock %}
+<form class="form-horizontal" method="post" >
+    <fieldset>
+    
+    <!-- Form Name -->
+    <legend class="text-center">Consulting</legend>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" >Select Patient</label>
+      <div class="col-md-4">
+        <input list="browsers" name="patient" id="browser">
+        <datalist id="browsers">
+            {%for all1s in all1%}
+          <option {{all1s}} value="{{all1s}}">
+          {%endfor%}
+        </datalist>
+        <button name="submit" class="btn btn-primary">Submit</button>
+  
+      </div>
+  
+    </div>
+  </form>
+  {% endblock %}

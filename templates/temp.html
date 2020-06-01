@@ -1,33 +1,10 @@
 {%extends "layout.html"%}
-{% block styles %}
-{{super() }}
-
-{% endblock %}
-{% block scripts %}
-{{super() }}
-<script type=text/javascript src="{{
-  url_for('static', filename='jquery.min.js') }}"></script>
-  
- 
-  <script src="{{
-    url_for('static', filename='jquery-ui.js') }}"></script>
-  
-         <script>
-          $( function() {
-            $("#datepicker").datepicker({dateFormat: "yy-mm-dd"});
-
-            $( "#datepicker" ).datepicker();
-          } );
-          </script>
-{% endblock %}
 
 
-{% block content%}
-<p>Enter Date: <input type = "text" id = "datepicker"></p>
+{%block content%}
 
 
-
-"yy-mm-dd"
+{{all1}}
 {%endblock%}
 
 

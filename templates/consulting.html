@@ -18,25 +18,75 @@
           } );
           </script>
 {% endblock %}
-<form class="form-horizontal" method="post" >
-  <fieldset>
-  
+<style>
+  table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+</style>
+
   <!-- Form Name -->
-  <legend class="text-center">Consulting</legend>
-  
-  <!-- Select Basic -->
-  <div class="form-group">
-    <label class="col-md-4 control-label" >Select Patient</label>
-    <div class="col-md-4">
-      <input list="browsers" name="patient" id="browser">
-      <datalist id="browsers">
-          {%for all1s in all1%}
-        <option {{all1s}} value="{{all1s}}">
-        {%endfor%}
-      </datalist>
-    </div>
+<legend class="text-center">Consulting</legend>
+<div class="text-center">
+  <h3><b><div class="text-uppercase">Patient Name : {{oldnew.name}}<br></div></b></h3>  
+  Gender : {{oldnew.sex}}<br>
+  Age : {{oldnew.age}}<br>
+  Area : {{oldnew.area}}<br>
+  First visit : {{oldnew.date_created}}
   </div>
+      <hr>  
+  <div class="container">  
+  <table class="table table-dark">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Treatment ID</th>
+          <th scope="col">Date</th>
+          <th scope="col"> Complaint</th>
+          <th scope="col">Report</th>
+          <th scope="col">Treatment</th>
+          <th scope="col">Fee</th>
+          <th scope="col">Appointment</th>
+        </tr>
   
+  {% for mynews in mynew%}
+  
+  
+  <tbody>
+      <tr>
+        <th scope="row">{{loop.index}}</th>
+        <th>{{mynews.id}}</th>
+        <td>{{mynews.date_treatment}}</td>
+        <td>{{mynews.complaint}}</td>
+        <td>{{mynews.report}}</td>
+        <td>{{mynews.treatment}}</td>
+        <td>{{mynews.fee}}</td>
+        <td>{{mynews.date_nextappointment}}</td>
+      </tr>
+  
+  {%endfor%}
+  <form method="post" >
+  <tbody>
+  <tr>
+      <th></th>
+      <th></th>
+      <th>{{xy}}</th>
+      <th><input type="text" name="complaint" class="form-control dp"></th>
+      <th><input type="text" name="report" class="form-control dp"></th>
+      <th><input type="text" name="treatment" class="form-control dp"></th>
+      <th><input name="fee" type="text" class="form-control input-md" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))"></th>
+      <th><input id="date_nextappointment" required name="date_nextappointment" type="text"  class="form-control dp"></th>
+      
+  </tr>
+  </table>
+  <div class="text-center">
+  <button class="btn btn-primary">Submit</button>
+  </div>
+  </div>
+</form>
+<br>
+<br>
+  {% endblock %}
+<form class="form-horizontal" method="post">
   
   <!-- Textarea -->
   <div class="form-group">
@@ -95,4 +145,3 @@
   </fieldset>
   </form>
   
-{% endblock %}
